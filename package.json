@@ -1,0 +1,27 @@
+{
+  "name": "api_estevas_garden",
+  "version": "1.0.0",
+  "description": "APi for estevas garden cafe to CRUD operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svpontes/api_estevas_garden.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/svpontes/api_estevas_garden/issues"
+  },
+  "homepage": "https://github.com/svpontes/api_estevas_garden#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-validator": "^7.3.0",
+    "mongodb": "^7.0.0"
+  }
+}
