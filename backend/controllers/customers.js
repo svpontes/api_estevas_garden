@@ -98,30 +98,32 @@ const createClient = async (req, res) => {
   }
 };
 
-//update client
 const updateClient = async (req, res, next) => {
   try {
     const userId = new ObjectId(req.params.id);
-    const { firstName, lastName, email, contact, address:{street, city, state, zipcode}  } = req.body;
+    const updateData = req.body;
 
-    // Simple validation: ensure at least one field is being updated
-    if (!firstName && !lastName && !email && !contact) {
+    // Garantir que exista ao menos um campo no body
+    if (!updateData || Object.keys(updateData).length === 0) {
       return res.status(400).json({ message: 'No data provided to update.' });
     }
-    
-    const result = await mongodb.getDb().collection('customers').replaceOne({ _id: userId }, updateClient);
 
-      if (result.modifiedCount > 0) {
-          console.log('Client updated! ');
-        return res.status(204).send();
-        
+    const result = await mongodb.getDb()
+      .collection('customers')
+      .updateOne({ _id: userId }, { $set: updateData });
+
+    if (result.modifiedCount > 0) {
+      console.log('Customer updated successfully');
+      return res.status(200).json({ message: 'Customer updated successfully' });
     } else {
-        return res.status(404).json({ message: 'Client not found!' });
-        
+      return res.status(404).json({ message: 'Client not found or no changes applied.' });
     }
 
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ 
+      message: 'Error updating client.',
+      error: err.message 
+    });
   }
 };
 
