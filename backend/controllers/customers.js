@@ -109,7 +109,7 @@ const updateClient = async (req, res, next) => {
       return res.status(400).json({ message: 'No data provided to update.' });
     }
     
-    const result = await mongodb.getDb().collection('customers').replaceOne({ _id: userId }, updatedClient);
+    const result = await mongodb.getDb().collection('customers').replaceOne({ _id: userId }, updateClient);
 
       if (result.modifiedCount > 0) {
           console.log('Client updated! ');
