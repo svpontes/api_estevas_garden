@@ -131,7 +131,7 @@ const deleteClient = async (req, res) => {
     const response = await mongodb.getDb().collection('customers').deleteOne({ _id: userId });
 
     if (response.deletedCount > 0) {
-      res.status(200).jason({messsage: "Customer deleted successfully"});
+      res.status(200).json({messsage: "Customer deleted successfully"});
       
     } else {
       res.status(404).json({ message: 'Client not found.' });
