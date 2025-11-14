@@ -1,0 +1,161 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Estevas Garden - Customers API",
+    "version": "1.0.0",
+    "description": "REST API for managing customer records in the Estevas Garden platform."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://cse341assignmentsrepository.onrender.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/customers/all": {
+      "get": {
+        "summary": "Retrieve all customers",
+        "tags": ["Customers"],
+        "responses": {
+          "200": {
+            "description": "List of customers returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Customer" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "get": {
+        "summary": "Retrieve a customer by ID",
+        "tags": ["Customers"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Customer" }
+              }
+            }
+          },
+          "404": { "description": "Customer not found" },
+          "400": { "description": "Invalid request" }
+        }
+      },
+      "put": {
+        "summary": "Update a customer by ID",
+        "tags": ["Customers"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Customer" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Customer updated successfully" },
+          "400": { "description": "Invalid request data" },
+          "404": { "description": "Customer not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete a customer by ID",
+        "tags": ["Customers"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Customer deleted successfully" },
+          "404": { "description": "Customer not found" }
+        }
+      }
+    },
+    "/customers": {
+      "post": {
+        "summary": "Create a new customer",
+        "tags": ["Customers"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Customer" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Customer created successfully" },
+          "400": { "description": "Validation failed" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Customer": {
+        "type": "object",
+        "required": ["firstName", "lastName", "email", "address"],
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "William"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Turner"
+          },
+          "email": {
+            "type": "string",
+            "example": "william.turner@example.com"
+          },
+          "contact": {
+            "type": "string",
+            "example": "+1-407-555-0099"
+          },
+          "address": {
+            "type": "object",
+            "required": ["street", "city", "state", "zipcode"],
+            "properties": {
+              "street": { "type": "string", "example": "52 Palm Tree Drive" },
+              "city": { "type": "string", "example": "Orlando" },
+              "state": { "type": "string", "example": "Florida" },
+              "zipcode": { "type": "string", "example": "32801" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
