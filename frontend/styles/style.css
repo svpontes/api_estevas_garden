@@ -41,32 +41,129 @@ header h2 {
   margin-bottom: 20px;
 }
 
+.logomarca img{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    max-width: 100%;
+    width: 200px;
+    
+}
+
 .logomarca{
 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: alto;
-    max-width: 100%;
-    width: 10
-    0%;
+    height: auto;
+        
 }
 
-
+/************************/
 .endpointimg{
     display: flex;
     max-width: 100%;
-    width: 5%;
+    width: 35%;
     height: auto;
     justify-items: center;
     
     
 }
 
+.endpoints{
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr;
+  justify-content: center;
+  
+  align-content: center;
+  justify-items: start;
+  align-items:center;
+  height: 50px;
+  
+  padding: 20px;
+
+}
+
+.endpoints > :nth-child(2){
+  justify-self: start;
+
+}
+
+.endpoints > :nth-child(3){
+  justify-self: start;
+
+}
+.endpoints h3{
+  
+  justify-items: start;
+  align-items:center;
+}
+
+.endpoints a{
+  
+  justify-items: start;
+  align-items:center;
+}
+/*************************/
+
+/************************/
+.endpointimg{
+    display: flex;
+    max-width: 100%;
+    width: 35%;
+    height: auto;
+    justify-items: center;
+    
+    
+}
+
+.docs{
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr;
+  justify-content: center;
+  
+  align-content: center;
+  justify-items: start;
+  align-items:center;
+  height: 50px;
+  
+  padding: 20px;
+
+}
+
+.docs > :nth-child(2){
+  justify-self: start;
+
+}
+
+.docs > :nth-child(3){
+  justify-self: start;
+
+}
+.docs h3{
+  
+  justify-items: start;
+  align-items:center;
+}
+
+.docs a{
+  
+  justify-items: start;
+  align-items:center;
+}
+/*************************/
 .apidocimg{
     display: flex;
     max-width: 100%;
     width: 8%;
+    height: auto;
+}
+.apidoc2img{
+    display: flex;
+    max-width: 100%;
+    width: 38%;
     height: auto;
 }
 
