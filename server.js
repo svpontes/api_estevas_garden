@@ -7,6 +7,8 @@ const path = require('path');
 const errorHandler = require('./backend/middleware/errorHandler');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./backend/swagger/swagger-output.json');
+//cors
+const cors = require('cors');
 
 // Import route customers
 const customerRoutes = require('./backend/routes/customers');
@@ -18,6 +20,12 @@ const app = express();
 // Middleware to parse JSON
 app.use(express.json());
 
+//alolow all origins 
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authoriztion']
+}));
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, 'frontend')));
 
@@ -30,7 +38,7 @@ app.get('/', (req, res) => {
 app.use('/customers', customerRoutes);
 
 // Swagger API doc
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, { explorer: true }));
 
 // GLOBAL ERROR HANDLER (must be after all routes)
 app.use(errorHandler);
