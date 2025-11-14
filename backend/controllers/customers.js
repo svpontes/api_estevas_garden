@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');//import the objectId from mongodb
 const getAllData = async (req, res, next) => {//get data async way
   
   try {
-    const result = await mongodb.getDb().collection('customers').find(); //result waits from the connect to the db and get the collection friends executing the query 'find'
+    const result = await mongodb.getDb().collection('customers').find(); //result waits from the connect to the db and get the collection customers executing the query 'find'
     //format data and send a reposnse HTTP
       result.toArray().then((lists) => { //convert result int an array
       res.setHeader('Content-Type', 'application/json');
@@ -57,11 +57,11 @@ const getClientById = async (req, res, next) => {
         details: 'The ID must be a valid 24-character hexadecimal string.'
       });
     }
-    res.status(500).json({ message: 'Error retrieving friend.', error: err.message });
+    res.status(500).json({ message: 'Error retrieving customers.', error: err.message });
   }
 };
 
-// Create a new friend
+// Create a new client
 const createClient = async (req, res) => {
   try {
     // Simple validation for required fields
@@ -81,7 +81,7 @@ const createClient = async (req, res) => {
 
     const customer = { firstName, lastName, email, contact, address:{street, city, state, zipcode}};
 
-    const response = await mongodb.getDb().collection('customers').insertOne(friend);
+    const response = await mongodb.getDb().collection('customers').insertOne(customer);
 
     if (response.acknowledged) {
       res.status(201).json({
@@ -98,7 +98,7 @@ const createClient = async (req, res) => {
   }
 };
 
-//update friend
+//update client
 const updateClient = async (req, res, next) => {
   try {
     const userId = new ObjectId(req.params.id);
@@ -109,7 +109,7 @@ const updateClient = async (req, res, next) => {
       return res.status(400).json({ message: 'No data provided to update.' });
     }
     
-    const result = await mongodb.getDb().collection('customers').replaceOne({ _id: userId }, updatedFriend);
+    const result = await mongodb.getDb().collection('customers').replaceOne({ _id: userId }, updatedClient);
 
       if (result.modifiedCount > 0) {
           console.log('Client updated! ');
@@ -132,6 +132,7 @@ const deleteClient = async (req, res) => {
 
     if (response.deletedCount > 0) {
       res.status(204).send();
+      console.log("Customer deleted successfully")
     } else {
       res.status(404).json({ message: 'Client not found.' });
     }

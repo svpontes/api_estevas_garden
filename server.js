@@ -5,18 +5,15 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const errorHandler = require('./backend/middleware/errorHandler');
-//api-doc with swagger 
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./backend/swagger/swagger-output.json');
 
-//const swaggerFile = require('./backend/swagger/swagger')
-
 // Import route customers
 const customerRoutes = require('./backend/routes/customers');
+const { initDb } = require('./backend/db/connect');
 
 // Create express app
 const app = express();
-
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -32,15 +29,34 @@ app.get('/', (req, res) => {
 // Register API routes
 app.use('/customers', customerRoutes);
 
-//swagger api-doc
+// Swagger API doc
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-// GLOBAL ERROR HANDLER
+
+// GLOBAL ERROR HANDLER (must be after all routes)
 app.use(errorHandler);
 
 // Get PORT from environment or default PORT 8080
 const PORT = process.env.PORT || 8080;
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+/**
+ * Start server conditionally:
+ * - If NODE_ENV === "test": do NOT start server.
+ * - Otherwise: initialize DB first, then start server.
+ */
+if (process.env.NODE_ENV !== "test") {
+  initDb((err) => {
+    if (err) {
+      console.error("Failed to connect to MongoDB:", err.message);
+      process.exit(1); // Stop server, avoids running API without DB
+    }
+
+    console.log("MongoDB connected successfully!");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Swagger Docs: http://localhost:${PORT}/api-docs`);
+    });
+  });
+}
+
+module.exports = app;
